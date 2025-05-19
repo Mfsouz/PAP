@@ -116,14 +116,14 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <p style="color:red;"><?php echo $_SESSION['error'];
                                             unset($_SESSION['error']); ?></p>
                 <?php endif; ?>
-                <form action="check_login.php" method="post">
+                <form action="../bd/processaLogin.php" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Utilizador:</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <input type="text" class="form-control" id="nome_utilizador" name="nome_utilizador" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Senha:</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <input type="password" class="form-control" id="senha" name="senha" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Entrar</button>
                 </form>

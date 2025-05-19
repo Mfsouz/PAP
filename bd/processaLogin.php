@@ -1,41 +1,34 @@
 <?php
-// Iniciar sessão
 session_start();
 
-// Verificar se o formulário foi submetido corretamente
-if (isset($_POST['nome_utilizador']) && isset($_POST['senha'])) {
-    require "dbcon.php"; // Conexão com o banco de dados
+if (!empty($_POST['nome_utilizador']) && !empty($_POST['senha'])) {
+    require "dbcon.php"; // Aqui você deve garantir que $pdo esteja criado
+
+    $username = $_POST['nome_utilizador'];
+    $password = md5($_POST['senha']); // Hash MD5, mas recomendo usar password_hash no futuro
 
     try {
-        // Capturar e limpar os dados do formulário
-        $nome_utilizador = trim($_POST['nome_utilizador']);
-        $senha = sha1($_POST['senha']); // Aplicar SHA1 para criptografar a senha
+        $stmt = $pdo->prepare("SELECT * FROM utilizador WHERE nome_utilizador = :username AND senha = :password");
+        $stmt->execute([
+            ':username' => $username,
+            ':password' => $password
+        ]);
 
-        // Query SQL para verificar o utilizador
-        $sql = "SELECT * FROM utilizador WHERE nome_utilizador = :nome_utilizador AND senha = :senha";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':nome_utilizador', $nome_utilizador, PDO::PARAM_STR);
-        $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
-        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Verificar se encontrou um utilizador válido
-        if ($stmt->rowCount() == 1) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $_SESSION['nome_utilizador'] = $row['nome_utilizador']; // Armazena o nome na sessão
-            
-            header("Location: ../bd/proecssaLogin.php");
-            exit();
+        if ($user) {
+            $_SESSION['nome_utilizador'] = $user;
         } else {
-            $_SESSION['erro_login'] = "Utilizador ou senha inválidos!";
+            $_SESSION['erro_login'] = "Utilizador ou Password inválidos!";
         }
     } catch (PDOException $e) {
-        $_SESSION['erro_login'] = "Erro no login: " . $e->getMessage();
+        // Pode registar o erro se quiser
+        $_SESSION['erro_login'] = "Erro na base de dados.";
     }
 } else {
-    $_SESSION['erro_login'] = "Preencha todos os campos!";
+    $_SESSION['erro_login'] = "Os dados do utilizador e password devem ser preenchidos!";
 }
 
-// Redirecionar para a página de login
-header("Location: ../pag/login.php");
-exit();
+header("Location:../");
+exit;
 ?>
