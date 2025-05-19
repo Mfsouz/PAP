@@ -1,8 +1,10 @@
 <?php
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
+require '../PHPMailer/src/Exception.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-require 'vendor/autoload.php'; // ou ajuste o caminho se não usar Composer
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nome = htmlspecialchars($_POST['nome'] ?? '');
@@ -12,22 +14,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $mail = new PHPMailer(true);
 
     try {
-        // Configurações do servidor SMTP do Gmail
+        // Configuração SMTP (Gmail)
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'teuemail@gmail.com';         // ✅ Teu e-mail Gmail
-        $mail->Password   = 'SENHA_DO_APP';               // ✅ Senha de App, não a senha do Gmail normal
+        $mail->Username   = 'marcossantos.8b@gmail.com';         
+        $mail->Password   = 'tpnz bxua eaxo edly';  // Senha de app!
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
-        // Remetente e destinatário
-        $mail->setFrom($email, $nome);
-        $mail->addAddress('marcosssantos.8b@gmail.com');  // ✅ Destinatário
+        // Remetente fixo (tem que ser o mesmo usado no Username)
+        $mail->setFrom('marcossantos.8b@gmail.com', 'Formulário 8Bit');
+        $mail->addReplyTo($email, $nome);  // Para que você possa responder ao visitante
+        $mail->addAddress('marcosssantos.8b@gmail.com');  // destinatário final
 
-        // Conteúdo
+        // Conteúdo do e-mail
         $mail->isHTML(false);
-        $mail->Subject = 'Novo contato do site - Loja de Jogos';
+        $mail->Subject = 'Novo contato do site - 8Bit';
         $mail->Body    = "Nome: $nome\nEmail: $email\n\nMensagem:\n$mensagem";
 
         $mail->send();
