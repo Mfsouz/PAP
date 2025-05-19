@@ -242,7 +242,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Rodapé -->
     <footer class="footer text-center py-4">
-        <p>&copy; 2025 Loja de Jogos. Todos os direitos reservados12345.</p>
+        <p>&copy; 2025 Loja de Jogos. Todos os direitos reservados.</p>
         <div>
             <a href="#" class="text-white me-3">Privacidade</a>
             <a href="#" class="text-white">Termos de Uso</a>
