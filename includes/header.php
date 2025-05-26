@@ -24,7 +24,7 @@
                     <a class="nav-link" href="#games">Jogos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Carrinho</a>
+                    <a class="nav-link" href="./pag/carrinho.php">Carrinho</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white rounded px-3" href="./pag/login.php" style="background-color: #e83e8c;">Login</a>
