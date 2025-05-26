@@ -95,6 +95,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <p>Encontre os melhores jogos com descontos exclusivos!</p>
     </div>
 </header>
+juju
 
 <section id="games" class="container py-5">
     <div class="games-wrapper">
