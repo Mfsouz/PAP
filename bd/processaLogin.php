@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../bd/dbcon.php'; // aqui deve conter sua variável $pdo
+include './dbcon.php'; // aqui deve conter sua variável $pdo
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome_utilizador = trim($_POST['nome_utilizador'] ?? '');
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($user) {
             // Login OK, armazenar dados na sessão
-            $_SESSION['user_id'] = $user['id']; // por exemplo, id do usuário
+            $_SESSION['user_id'] = $user['id_utilizador']; // por exemplo, id do usuário
             $_SESSION['nome_utilizador'] = $user['nome_utilizador'];
             header("Location: ../index.php"); // redireciona para home ou dashboard
             exit();

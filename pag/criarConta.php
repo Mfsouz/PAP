@@ -43,7 +43,7 @@ session_start();
         </div>
     </nav>
 
-    <main class="flex-grow-1 d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center mt-4 mb-4" style="min-height: 80vh;">
         <div class="card p-4 custom-card" style="width: 100%; max-width: 400px;">
             <h2 class="text-center mb-4">Criar Conta</h2>
 
