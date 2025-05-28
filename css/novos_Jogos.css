@@ -1,0 +1,61 @@
+.novos-jogos-container {
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem 0;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+}
+
+.novos-jogos-track {
+    display: flex;
+    gap: 15px;
+    animation: scroll-left 20s linear infinite;
+}
+
+.novos-jogos-track:hover {
+    animation-play-state: paused;
+    /* Pausa o scroll quando o mouse está sobre */
+}
+
+.novos-jogos-track>div {
+    flex: 0 0 auto;
+    width: 220px;
+    /* largura fixa do card */
+}
+
+.game-card {
+    height: 320px;
+    /* altura controlada */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+}
+
+.game-card img {
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.game-card h3 {
+    font-size: 1.1rem;
+    margin: 10px 0 5px;
+    flex-grow: 1;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

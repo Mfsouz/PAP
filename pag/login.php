@@ -1,6 +1,4 @@
 <?php
-session_start();
-include '../bd/dbcon.php';
 
 // Se o utilizador já estiver logado, redireciona para a página principal
 if (isset($_SESSION['user_id'])) {
