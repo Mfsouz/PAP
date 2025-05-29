@@ -39,42 +39,46 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="pt-PT">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Catálogo de Jogos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>8Bit - Loja de Jogos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="novosJogos.css" />
+    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <style>
         .game-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
+            border: none;
+            border-radius: 12px;
             padding: 15px;
-            /* Aumentei um pouco o padding */
             text-align: center;
-            margin: 15px;
-            /* margens maiores */
+            margin: 15px 0;
             background-color: #fff;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 0 20px 5px rgba(0, 123, 255, 0.7);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            box-shadow: 0 0 30px 7px rgba(0, 123, 255, 0.9);
         }
 
         .game-card img {
             width: 100%;
             height: 350px;
-            /* Aumentei de 250px para 350px */
             object-fit: cover;
             border-radius: 8px;
         }
 
         .game-card h3 {
             font-size: 1.8rem;
-            /* Aumentei de 1.5rem para 1.8rem */
             margin-top: 15px;
-            /* aumentei a margem superior */
             flex-grow: 1;
         }
-
-
 
         .games-wrapper {
             border: 1px solid #ddd;
@@ -122,36 +126,31 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include './includes/header.php'; ?>
 
     <!-- Seção de Destaque -->
-    <header
-        style="background: linear-gradient(90deg, #0d6efd, #e83e8c); color: white; text-align: center; padding: 3rem 0;">
+    <header style="background: linear-gradient(90deg, #0d6efd, #e83e8c); color: white; text-align: center; padding: 3rem 0;">
         <div class="container">
             <h1>Bem-vindo à Loja de Jogos</h1>
             <p>Encontre os melhores jogos com descontos exclusivos!</p>
         </div>
     </header>
 
-    <section class="container py-5">
+    <main class="container py-5">
         <div class="games-wrapper">
 
             <!-- Catálogo Completo -->
-            <h2 class="text-center mb-4">
-                <i class="bi bi-controller"></i> Catálogo
-            </h2>
+            <h2 class="mb-4"><i class="bi bi-controller"></i> Catálogo</h2>
             <div class="row">
                 <?php foreach ($produtos as $index => $produto): ?>
                     <?php $classe_oculta = $index >= 6 ? ' d-none mais-produtos' : ''; ?>
                     <div class="col-md-4<?php echo $classe_oculta; ?>">
                         <div class="game-card">
                             <?php if (!empty($produto['link_imagem']) && file_exists('./img/Games/' . $produto['link_imagem'])): ?>
-                                <img src="./img/Games/<?php echo htmlspecialchars($produto['link_imagem']); ?>"
-                                    alt="<?php echo htmlspecialchars($produto['nome']); ?>">
+                                <img src="./img/Games/<?php echo htmlspecialchars($produto['link_imagem']); ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>" />
                             <?php else: ?>
-                                <img src="./img/no-image.png" alt="Imagem não disponível">
+                                <img src="./img/no-image.png" alt="Imagem não disponível" />
                             <?php endif; ?>
                             <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
                             <?php if ($utilizador_logado): ?>
-                                <a href="./pag/buy.php?id=<?php echo $produto['id_produto']; ?>"
-                                    class="btn btn-primary w-100 mt-2">Comprar</a>
+                                <a href="./pag/buy.php?id=<?php echo $produto['id_produto']; ?>" class="btn btn-primary w-100 mt-2">Comprar</a>
                             <?php else: ?>
                                 <a href="./pag/login.php" class="btn btn-secondary w-100 mt-2">Entrar para comprar</a>
                             <?php endif; ?>
@@ -172,19 +171,17 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <?php foreach ($produtos as $produto): ?>
                     <?php if (!empty($produto['desconto']) && $produto['desconto'] > 0): ?>
-                        <div class="col-md-4">
+                        <div class="col-md-4 mb-4">
                             <div class="game-card">
                                 <?php if (!empty($produto['link_imagem']) && file_exists('./img/Games/' . $produto['link_imagem'])): ?>
-                                    <img src="./img/Games/<?php echo htmlspecialchars($produto['link_imagem']); ?>"
-                                        alt="<?php echo htmlspecialchars($produto['nome']); ?>">
+                                    <img src="./img/Games/<?php echo htmlspecialchars($produto['link_imagem']); ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>" />
                                 <?php else: ?>
-                                    <img src="./img/no-image.png" alt="Imagem não disponível">
+                                    <img src="./img/no-image.png" alt="Imagem não disponível" />
                                 <?php endif; ?>
                                 <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
-                                <p class="text-danger">-<?php echo (int) $produto['desconto']; ?>% OFF</p>
+                                <p class="text-danger fw-bold">-<?php echo (int) $produto['desconto']; ?>% OFF</p>
                                 <?php if ($utilizador_logado): ?>
-                                    <a href="./pag/buy.php?id=<?php echo $produto['id_produto']; ?>"
-                                        class="btn btn-primary w-100 mt-2">Comprar</a>
+                                    <a href="./pag/buy.php?id=<?php echo $produto['id_produto']; ?>" class="btn btn-primary w-100 mt-2">Comprar</a>
                                 <?php else: ?>
                                     <a href="./pag/login.php" class="btn btn-secondary w-100 mt-2">Entrar para comprar</a>
                                 <?php endif; ?>
@@ -194,27 +191,26 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </div>
 
+            <!-- Novos Jogos -->
             <h2 class="text-center my-5"><i class="bi bi-stars text-success"></i> Novos Jogos</h2>
             <div class="novos-jogos-container">
                 <div class="novos-jogos-track">
                     <?php
-                    // Duplicar os produtos para o loop ser contínuo
+                    // Duplicar os produtos para scroll contínuo
                     $produtos_para_rolar = array_merge($produtos_novos, $produtos_novos);
                     ?>
                     <?php foreach ($produtos_para_rolar as $produto): ?>
                         <div class="col-md-4">
                             <div class="game-card">
                                 <?php if (!empty($produto['link_imagem']) && file_exists('./img/Games/' . $produto['link_imagem'])): ?>
-                                    <img src="./img/Games/<?php echo htmlspecialchars($produto['link_imagem']); ?>"
-                                        alt="<?php echo htmlspecialchars($produto['nome']); ?>">
+                                    <img src="./img/Games/<?php echo htmlspecialchars($produto['link_imagem']); ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>" />
                                 <?php else: ?>
-                                    <img src="./img/no-image.png" alt="Imagem não disponível">
+                                    <img src="./img/no-image.png" alt="Imagem não disponível" />
                                 <?php endif; ?>
                                 <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
                                 <span class="badge bg-success">Novidade!</span>
                                 <?php if ($utilizador_logado): ?>
-                                    <a href="./pag/buy.php?id=<?php echo $produto['id_produto']; ?>"
-                                        class="btn btn-primary w-100 mt-2">Comprar</a>
+                                    <a href="./pag/buy.php?id=<?php echo $produto['id_produto']; ?>" class="btn btn-primary w-100 mt-2">Comprar</a>
                                 <?php else: ?>
                                     <a href="./pag/login.php" class="btn btn-secondary w-100 mt-2">Entrar para comprar</a>
                                 <?php endif; ?>
@@ -224,28 +220,27 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <?php include './includes/footer.php'; ?>
 
     <!-- Scripts Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const btnMais = document.getElementById('mostrarMaisBtn');
             const btnMenos = document.getElementById('mostrarMenosBtn');
             const maisProdutos = document.querySelectorAll('.mais-produtos');
 
             if (btnMais && btnMenos) {
-                btnMais.addEventListener('click', function () {
+                btnMais.addEventListener('click', function() {
                     maisProdutos.forEach(el => el.classList.remove('d-none'));
                     btnMais.classList.add('d-none');
                     btnMenos.classList.remove('d-none');
                 });
 
-                btnMenos.addEventListener('click', function () {
+                btnMenos.addEventListener('click', function() {
                     maisProdutos.forEach(el => el.classList.add('d-none'));
                     btnMais.classList.remove('d-none');
                     btnMenos.classList.add('d-none');
@@ -257,7 +252,6 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         });
     </script>
-
 
 </body>
 
