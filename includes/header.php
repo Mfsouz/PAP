@@ -5,9 +5,9 @@ if (session_status() === PHP_SESSION_NONE) {
 include './bd/dbcon.php';
 
 $isAdmin = false;
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['id_utilizador'])) {
     $stmt = $pdo->prepare("SELECT is_admin FROM utilizador WHERE id_utilizador = ?");
-    $stmt->execute([$_SESSION['user_id']]);
+    $stmt->execute([$_SESSION['id_utilizador']]);
     $isAdmin = $stmt->fetchColumn() == 1;
 }
 ?>
@@ -75,14 +75,14 @@ if (isset($_SESSION['user_id'])) {
 
                 <?php if ($isAdmin): ?>
                     <li class="nav-item">
-                        <a class="nav-link text-warning fw-bold" href="/admin/index.php">
+                        <a class="nav-link text-warning fw-bold" href="./admin/index_admin.php">
                             <i class="bi bi-gear-fill"></i> Administração
                         </a>
                     </li>
                 <?php endif; ?>
 
                 <li class="nav-item">
-                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <?php if (isset($_SESSION['id_utilizador'])): ?>
                         <a class="nav-link text-white rounded px-3" href="./pag/logout.php"
                             style="background-color: #dc3545;">Logout</a>
                     <?php else: ?>

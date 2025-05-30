@@ -2,7 +2,7 @@
 session_start();
 include './bd/dbcon.php';
 
-$utilizador_logado = isset($_SESSION['user_id']);
+$utilizador_logado = isset($_SESSION['id_utilizador']);
 
 $subcat = 0;
 if (isset($_GET['sc'])) {

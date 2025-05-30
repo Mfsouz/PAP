@@ -1,7 +1,7 @@
 <?php
 $gameName = $_GET['jogo_nome'] ?? '';
 $cacheKey = md5($gameName);
-$cacheFile = __DIR__ . "/{$cacheKey}.json";
+$cacheFile = __DIR__ . "/cache_salvo/{$cacheKey}.json";
 $cacheDuration = 3600; // 1 hora
 
 // Verifica se o cache existe e ainda está válido

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include './dbcon.php'; // aqui deve conter sua variável $pdo
+include './dbcon.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome_utilizador = trim($_POST['nome_utilizador'] ?? '');
@@ -12,11 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Hash da senha com md5 (se é assim que está salvo no banco)
+    // Hash da senha com md5 (confirme que é assim no banco)
     $senha_hash = md5($senha);
 
     try {
-        // Consulta para verificar usuário e senha
         $stmt = $pdo->prepare("SELECT * FROM utilizador WHERE nome_utilizador = :usuario AND senha = :senha LIMIT 1");
         $stmt->execute([
             ':usuario' => $nome_utilizador,
@@ -25,10 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Login OK, armazenar dados na sessão
-            $_SESSION['user_id'] = $user['id_utilizador']; // por exemplo, id do usuário
+            $_SESSION['id_utilizador'] = $user['id_utilizador'];
             $_SESSION['nome_utilizador'] = $user['nome_utilizador'];
-            header("Location: ../index.php"); // redireciona para home ou dashboard
+            header("Location: ../index.php");
             exit();
         } else {
             $_SESSION['error'] = "Utilizador ou senha inválidos.";
@@ -36,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
     } catch (PDOException $e) {
-        // Erro no banco
         $_SESSION['error'] = "Erro na base de dados: " . $e->getMessage();
         header("Location: ../pag/login.php");
         exit();
@@ -45,4 +42,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: ../pag/login.php");
     exit();
 }
-?>

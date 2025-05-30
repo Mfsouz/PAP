@@ -1,7 +1,7 @@
 <?php
 
 // Se o utilizador já estiver logado, redireciona para a página principal
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['utilizador_id'])) {
     header("Location: ../index.php");
     exit();
 }
