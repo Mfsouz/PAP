@@ -11,7 +11,12 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $jogoId = (int) $_GET['id'];
 
 try {
-    $stmt = $pdo->prepare("SELECT * FROM produtos WHERE id_produto = ?");
+    $stmt = $pdo->prepare("SELECT produtos.*, subcategorias.nome_subcategoria, criadoras.nome_criadora, produto_imagem.link_imagem
+                                  FROM produtos, subcategorias, criadoras, produto_imagem
+                                  WHERE produtos.subcategoria_fk = subcategorias.id_subcategoria
+                                  AND produtos.criadora_fk = criadoras.id_criadora
+                                  AND produtos.imagem_fk = produto_imagem.id_imagem
+                                  AND id_produto = ?");
     $stmt->execute([$jogoId]);
     $jogo = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -161,7 +166,7 @@ if (!empty($avaliacoes)) {
         <?php endif; ?>
 
         <!-- Botão Voltar -->
-        <a href="./index.php" class="btn btn-outline-secondary mb-4">
+        <a href=".. /index.php" class="btn btn-outline-secondary mb-4">
             <i class="fas fa-arrow-left"></i> Voltar para lista
         </a>
 
@@ -169,7 +174,7 @@ if (!empty($avaliacoes)) {
         <div class="jogo-header">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="<?= htmlspecialchars($jogo['imagem_fk']) ?>" alt="<?= htmlspecialchars($jogo['nome']) ?>"
+                    <img src="<?= htmlspecialchars($jogo['link_imagem']) ?>" alt="<?= htmlspecialchars($jogo['nome']) ?>"
                         class="jogo-capa">
                 </div>
                 <div class="col-md-8">
@@ -193,7 +198,7 @@ if (!empty($avaliacoes)) {
                         </div>
 
                         <div class="text-primary">
-                            <i class="fas fa-user-tie"></i> <?= htmlspecialchars($jogo['criadora_fk']) ?>
+                            <i class="fas fa-user-tie"></i> <?= htmlspecialchars($jogo['nome_criadora']) ?>
                         </div>
                     </div>
 
@@ -206,11 +211,11 @@ if (!empty($avaliacoes)) {
                         <h5>Gêneros</h5>
                         <div class="d-flex flex-wrap gap-2">
                             <?php
-                            $generos = explode(',', $jogo['subcategoria_fk']);
+                            $generos = explode(',', $jogo['nome_subcategoria']);
                             foreach ($generos as $genero):
                                 if (trim($genero)): ?>
                                     <span class="badge bg-primary"><?= htmlspecialchars(trim($genero)) ?></span>
-                                <?php endif;
+                            <?php endif;
                             endforeach; ?>
                         </div>
                     </div>
@@ -274,10 +279,9 @@ if (!empty($avaliacoes)) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             const apiUrl = "https://magicloops.dev/api/loop/3691ba69-edee-4374-a5ea-dfdeab2af05e/run";
             const gameData = {
-                jogo_id: <?= $jogo['id_produto'] ?>,
                 jogo_nome: "<?= addslashes($jogo['nome']) ?>"
             };
 
@@ -286,7 +290,7 @@ if (!empty($avaliacoes)) {
                 url: apiUrl,
                 data: gameData,
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     $('#price-loading').hide();
 
                     // Atualiza horário da consulta
@@ -303,7 +307,7 @@ if (!empty($avaliacoes)) {
                     `);
                     }
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     $('#price-loading').hide();
                     $('#price-results').html(`
                     <div class="alert alert-danger">
@@ -324,7 +328,7 @@ if (!empty($avaliacoes)) {
 
                 // Processar Epic Games
                 if (data.epic && data.epic.results && data.epic.results.length > 0) {
-                    html += createPlatformSection('Epic Games', 'https://store.epicgames.com/favicon.ico', data.epic.results);
+                    html += createPlatformSection('Epic Games', 'https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/video-games/epic-games-hg3aynrgcuetqn170db1g9.png/epic-games-y5xqpgrdx4l1nft47f5gz7.png?_a=DATAdtAAZAA0', data.epic.results);
                 }
 
                 $('#price-results').html(html);
