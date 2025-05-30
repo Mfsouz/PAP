@@ -1,3 +1,17 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include './bd/dbcon.php';
+
+$isAdmin = false;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT is_admin FROM utilizador WHERE id_utilizador = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $isAdmin = $stmt->fetchColumn() == 1;
+}
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +21,6 @@
     <link href="./css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/novos_Jogos.css">
 </head>
-
-<?php
-include './bd/dbcon.php';
-?>
 
 <!-- Barra de Navegação -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 60px; display: flex; justify-content: flex-start;">
@@ -59,6 +69,14 @@ include './bd/dbcon.php';
                 <li class="nav-item">
                     <a class="nav-link" href="./pag/carrinho.php">Carrinho</a>
                 </li>
+
+                <?php if ($isAdmin): ?>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning fw-bold" href="/admin/index.php">
+                            <i class="bi bi-gear-fill"></i> Administração
+                        </a>
+                    </li>
+                <?php endif; ?>
 
                 <li class="nav-item">
                     <?php if (isset($_SESSION['user_id'])): ?>
