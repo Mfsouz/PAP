@@ -23,10 +23,12 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <!-- Barra de Navegação -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 60px; display: flex; justify-content: flex-start;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+    style="height: 60px; display: flex; justify-content: flex-start;">
     <div class="container-fluid">
         <a class="navbar-brand" href="./index.php">
-            <img src="./img/logo.png" alt="8Bit" style="height: 70px; max-height: none; position: relative; top: 0px;" class="d-inline-block align-text-top">
+            <img src="./img/logo.png" alt="8Bit" style="height: 70px; max-height: none; position: relative; top: 0px;"
+                class="d-inline-block align-text-top">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -42,7 +44,8 @@ if (isset($_SESSION['user_id'])) {
 
                 <!-- Dropdown de Categorias -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         Categorias
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
@@ -80,9 +83,11 @@ if (isset($_SESSION['user_id'])) {
 
                 <li class="nav-item">
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <a class="nav-link text-white rounded px-3" href="./pag/logout.php" style="background-color: #dc3545;">Logout</a>
+                        <a class="nav-link text-white rounded px-3" href="./pag/logout.php"
+                            style="background-color: #dc3545;">Logout</a>
                     <?php else: ?>
-                        <a class="nav-link text-white rounded px-3" href="./pag/login.php" style="background-color: #e83e8c;">Login</a>
+                        <a class="nav-link text-white rounded px-3" href="./pag/login.php"
+                            style="background-color: #e83e8c;">Login</a>
                     <?php endif; ?>
                 </li>
             </ul>

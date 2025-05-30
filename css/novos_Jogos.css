@@ -1,5 +1,5 @@
 .novos-jogos-container {
-    overflow: visible;
+    overflow: hidden;
     width: 100%;
     margin: 0 auto;
     padding: 1rem 0;
@@ -16,34 +16,37 @@
 
 .novos-jogos-track:hover {
     animation-play-state: paused;
+    /* Pausa o scroll quando o mouse está sobre */
 }
 
 .novos-jogos-track>div {
     flex: 0 0 auto;
     width: 220px;
+    /* largura fixa do card */
 }
 
-/* Removido box-shadow que estava sobrescrevendo */
-.novos-jogos-track .game-card {
-    height: 320px;
+.game-card {
+    height: 370px;
+    /* aumentada de 320px para 370px */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: white;
     border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     text-align: center;
-    box-shadow: 0 0 20px 6px rgba(0, 123, 255, 0.7);
-    /* sombra azul aplicada aqui também */
 }
 
-.novos-jogos-track .game-card img {
-    height: 150px;
+
+.game-card img {
+    height: 250px;
+    /* aumentada de 150px para 200px */
     object-fit: cover;
     border-radius: 6px;
 }
 
-.novos-jogos-track .game-card h3 {
+.game-card h3 {
     font-size: 1.1rem;
     margin: 10px 0 5px;
     flex-grow: 1;
