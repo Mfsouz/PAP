@@ -150,12 +150,9 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php endif; ?>
                             <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
                             <?php if ($utilizador_logado): ?>
-<<<<<<< HEAD
-                                <a href="./pag/buy.php?id=<?php echo $produto['id_produto']; ?>" class="btn btn-primary w-100 mt-2">Comprar</a>
-=======
+
                                 <a href="./pag/detalhesJogo.php?id=<?php echo $produto['id_produto']; ?>"
                                     class="btn btn-primary w-100 mt-2">Comprar</a>
->>>>>>> 1136ae7c713f0cf805893e9a1bd95b4328938b43
                             <?php else: ?>
                                 <a href="./pag/login.php" class="btn btn-secondary w-100 mt-2">Entrar para comprar</a>
                             <?php endif; ?>
