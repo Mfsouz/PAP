@@ -166,7 +166,7 @@ if (!empty($avaliacoes)) {
         <?php endif; ?>
 
         <!-- Botão Voltar -->
-        <a href=".. /index.php" class="btn btn-outline-secondary mb-4">
+        <a href="../index.php" class="btn btn-outline-secondary mb-4">
             <i class="fas fa-arrow-left"></i> Voltar para lista
         </a>
 
@@ -280,7 +280,7 @@ if (!empty($avaliacoes)) {
 
     <script>
         $(document).ready(function() {
-            const apiUrl = "https://magicloops.dev/api/loop/3691ba69-edee-4374-a5ea-dfdeab2af05e/run";
+            const apiUrl = "../cache/get_Precos.php";
             const gameData = {
                 jogo_nome: "<?= addslashes($jogo['nome']) ?>"
             };
@@ -328,11 +328,27 @@ if (!empty($avaliacoes)) {
 
                 // Processar Epic Games
                 if (data.epic && data.epic.results && data.epic.results.length > 0) {
-                    html += createPlatformSection('Epic Games', 'https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/video-games/epic-games-hg3aynrgcuetqn170db1g9.png/epic-games-y5xqpgrdx4l1nft47f5gz7.png?_a=DATAdtAAZAA0', data.epic.results);
+                    // Convertendo preços de dólares para euros
+                    const convertedResults = data.epic.results.map(item => {
+                        const dollarMatch = item.price.match(/\$([\d.,]+)/);
+                        if (dollarMatch) {
+                            const dollarValue = parseFloat(dollarMatch[1].replace(',', ''));
+                            const euroValue = (dollarValue * 0.93).toFixed(2); // ajuste a taxa de câmbio se necessário
+                            item.price = `${euroValue.replace('.', ',')} €`;
+                        }
+                        return item;
+                    });
+
+                    html += createPlatformSection(
+                        'Epic Games',
+                        'https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/video-games/epic-games-hg3aynrgcuetqn170db1g9.png/epic-games-y5xqpgrdx4l1nft47f5gz7.png?_a=DATAdtAAZAA0',
+                        convertedResults
+                    );
                 }
 
                 $('#price-results').html(html);
             }
+
 
             function createPlatformSection(platformName, logoUrl, items) {
                 let sectionHtml = `
