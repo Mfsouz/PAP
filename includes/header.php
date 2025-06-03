@@ -20,6 +20,7 @@ if (isset($_SESSION['id_utilizador'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/novos_Jogos.css">
+    <link href="./css/style_home.css" rel="stylesheet">
 </head>
 
 <!-- Barra de Navegação -->
