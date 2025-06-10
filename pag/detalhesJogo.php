@@ -1,7 +1,5 @@
 <?php
-// detalhes.php - Página de detalhes do jogo com exibição de preços por loja
-
-require_once '../bd/dbcon.php'; // Arquivo com configurações do banco de dados
+require_once './bd/dbcon.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php?error=Jogo não encontrado');
@@ -166,7 +164,7 @@ if (!empty($avaliacoes)) {
         <?php endif; ?>
 
         <!-- Botão Voltar -->
-        <a href="../index.php" class="btn btn-outline-secondary mb-4">
+        <a href="?page=home-form" class="btn btn-outline-secondary mb-4">
             <i class="fas fa-arrow-left"></i> Voltar para lista
         </a>
 
@@ -174,7 +172,7 @@ if (!empty($avaliacoes)) {
         <div class="jogo-header">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="<?= htmlspecialchars($jogo['link_imagem']) ?>" alt="<?= htmlspecialchars($jogo['nome']) ?>"
+                    <img src="./img/Games/<?= htmlspecialchars($jogo['link_imagem']) ?>" alt="<?= htmlspecialchars($jogo['nome']) ?>"
                         class="jogo-capa">
                 </div>
                 <div class="col-md-8">
@@ -280,7 +278,7 @@ if (!empty($avaliacoes)) {
 
     <script>
         $(document).ready(function() {
-            const apiUrl = "../cache/get_Precos.php";
+            const apiUrl = "./cache/get_Precos.php";
             const gameData = {
                 jogo_nome: "<?= addslashes($jogo['nome']) ?>"
             };

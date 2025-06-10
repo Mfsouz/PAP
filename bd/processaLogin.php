@@ -1,5 +1,4 @@
 <?php
-session_start();
 include './dbcon.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -8,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nome_utilizador) || empty($senha)) {
         $_SESSION['error'] = "Preencha todos os campos.";
-        header("Location: ../pag/login.php");
+        header("Location: ?page=login-form");
         exit();
     }
 
@@ -26,19 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user) {
             $_SESSION['id_utilizador'] = $user['id_utilizador'];
             $_SESSION['nome_utilizador'] = $user['nome_utilizador'];
-            header("Location: ../index.php");
+            header("Location: ?page=home-form");
             exit();
         } else {
             $_SESSION['error'] = "Utilizador ou senha inválidos.";
-            header("Location: ../pag/login.php");
+            header("Location: ?page=login-form");
             exit();
         }
     } catch (PDOException $e) {
         $_SESSION['error'] = "Erro na base de dados: " . $e->getMessage();
-        header("Location: ../pag/login.php");
+        header("Location: ?page=login-form");
         exit();
     }
 } else {
-    header("Location: ../pag/login.php");
+    header("Location: ?page=login-form");
     exit();
 }

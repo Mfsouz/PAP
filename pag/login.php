@@ -23,37 +23,17 @@ if (isset($_SESSION['utilizador_id'])) {
 </style>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../index.php">
-                <img src="../img/logo.png" alt="8Bit" height="40" class="d-inline-block align-text-top" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.php">Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../index.php#games">Jogos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../pag/carrinho.php">Carrinho</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white bg-primary rounded px-3" href="./login.php">Login</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <main class="flex-grow-1 d-flex align-items-center justify-content-center" style="min-height: 80vh;">
         <div class="card p-4 custom-card" style="width: 100%; max-width: 400px;">
             <h2 class="text-center mb-4">Iniciar sessão</h2>
 
             <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                <div class="alert alert-danger"><?php echo $_SESSION['error'];
+                                                unset($_SESSION['error']); ?></div>
             <?php endif; ?>
 
-            <form action="../bd/processaLogin.php" method="post">
+            <form action="?page=processa_login" method="post">
                 <div class="mb-3">
                     <label for="nome_utilizador" class="form-label">Utilizador:</label>
                     <input type="text" class="form-control" id="nome_utilizador" name="nome_utilizador" required>
@@ -64,7 +44,7 @@ if (isset($_SESSION['utilizador_id'])) {
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Entrar</button>
             </form>
-            <a href="./criarConta.php" class="btn btn-secondary w-100 mt-2">Criar Conta</a>
+            <a href="?page=create-account-form" class="btn btn-secondary w-100 mt-2">Criar Conta</a>
         </div>
     </main>
 
@@ -101,14 +81,6 @@ if (isset($_SESSION['utilizador_id'])) {
 
     <!-- Scripts Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <footer class="footer text-center py-4 bg-dark text-white mt-auto">
-        <p>&copy; 2025 Loja de Jogos. Todos os direitos reservados.</p>
-        <div>
-            <a href="../privacidade.php" class="text-white me-3">Privacidade</a>
-            <a href="../termos.php" class="text-white me-3">Termos de Uso</a>
-            <a class="text-white me-3 btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#modalContacto">Contacto</a>
-        </div>
-    </footer>
 </body>
+
 </html>

@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -14,27 +10,6 @@ session_start();
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../index.php">
-                <img src="../img/logo.png" alt="8Bit" height="40" class="d-inline-block align-text-top" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#games">Jogos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Carrinho</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white bg-primary rounded px-3" href="./pag/login.php">Login</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <main class="container my-5">
         <h1 class="mb-4">Termos de Uso</h1>
@@ -72,14 +47,6 @@ session_start();
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <footer class="footer text-center py-4 bg-dark text-white mt-auto">
-        <p>&copy; 2025 Loja de Jogos. Todos os direitos reservados.</p>
-        <div>
-            <a href="./privacidade.php" class="text-white me-3">Privacidade</a>
-            <a href="./termos.php" class="text-white me-3">Termos de Uso</a>
-            <a class="text-white me-3 btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#modalContacto">Contacto</a>
-        </div>
-    </footer>
 </body>
 
 </html>

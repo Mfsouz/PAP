@@ -1,7 +1,7 @@
 <?php
-session_start();
+unset($_SESSION['success']);
+unset($_SESSION['error']);
 ?>
-
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -21,28 +21,6 @@ session_start();
 </style>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../index.php">
-                <img src="../img/logo.png" alt="8Bit" height="40" class="d-inline-block align-text-top" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#games">Jogos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Carrinho</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white bg-primary rounded px-3" href="./pag/login.php">Login</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <main class="flex-grow-1 d-flex align-items-center justify-content-center mt-4 mb-4" style="min-height: 80vh;">
         <div class="card p-4 custom-card" style="width: 100%; max-width: 400px;">
             <h2 class="text-center mb-4">Criar Conta</h2>
@@ -85,6 +63,9 @@ session_start();
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Criar Conta</button>
+                <div class="mt-3 text-center">
+                    <button type="button" class="btn btn-secondary w-100" onclick="history.back()">Voltar</button>
+                </div>
             </form>
         </div>
     </main>
@@ -121,15 +102,6 @@ session_start();
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <footer class="footer text-center py-4 bg-dark text-white mt-auto">
-        <p>&copy; 2025 Loja de Jogos. Todos os direitos reservados.</p>
-        <div>
-            <a href="./privacidade.php" class="text-white me-3">Privacidade</a>
-            <a href="./termos.php" class="text-white me-3">Termos de Uso</a>
-            <a class="text-white me-3 btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#modalContacto">Contacto</a>
-        </div>
-    </footer>
 </body>
 
 </html>

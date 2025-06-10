@@ -1,7 +1,4 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 include './bd/dbcon.php';
 
 $isAdmin = false;
@@ -27,7 +24,7 @@ if (isset($_SESSION['id_utilizador'])) {
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark"
     style="height: 60px; display: flex; justify-content: flex-start;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./index.php">
+        <a class="navbar-brand" href="?page=home-form">
             <img src="./img/logo.png" alt="8Bit" style="height: 70px; max-height: none; position: relative; top: 0px;"
                 class="d-inline-block align-text-top">
         </a>
@@ -40,7 +37,7 @@ if (isset($_SESSION['id_utilizador'])) {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Início</a>
+                    <a class="nav-link active" aria-current="page" href="?page=home-form">Início</a>
                 </li>
 
                 <!-- Dropdown de Categorias -->
@@ -76,7 +73,7 @@ if (isset($_SESSION['id_utilizador'])) {
 
                 <?php if ($isAdmin): ?>
                     <li class="nav-item">
-                        <a class="nav-link text-warning fw-bold" href="./admin/index_admin.php">
+                        <a class="nav-link text-warning fw-bold" href="?page=admin-produtos-form">
                             <i class="bi bi-gear-fill"></i> Administração
                         </a>
                     </li>
@@ -87,7 +84,7 @@ if (isset($_SESSION['id_utilizador'])) {
                         <a class="nav-link text-white rounded px-3" href="./pag/logout.php"
                             style="background-color: #dc3545;">Logout</a>
                     <?php else: ?>
-                        <a class="nav-link text-white rounded px-3" href="./pag/login.php"
+                        <a class="nav-link text-white rounded px-3" href="?page=login-form"
                             style="background-color: #e83e8c;">Login</a>
                     <?php endif; ?>
                 </li>

@@ -1,9 +1,18 @@
 /* Estilos Gerais */
+html,
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  height: 100%;
   margin: 0;
   padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estrutura principal */
+main {
+  flex: 1 0 auto;
 }
 
 /* Navbar */
@@ -24,6 +33,7 @@ header {
   background: linear-gradient(135deg, #007bff, #0056b3);
   color: white;
   padding: 50px 0;
+  text-align: center;
 }
 
 header h1 {
@@ -42,7 +52,11 @@ header p {
   padding: 15px;
   text-align: center;
   margin: 15px;
-  background-color: white;
+  background-color: #fff;
+  height: 97%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -52,19 +66,29 @@ header p {
 
 .game-card img {
   width: 100%;
-  height: auto;
+  height: 450px;
+  object-fit: cover;
   border-radius: 8px;
 }
 
 .game-card h3 {
   font-size: 1.5rem;
   margin-top: 10px;
+  flex-grow: 1;
 }
 
 .game-card .btn-buy {
   margin-top: 10px;
   background-color: #007bff;
   color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.game-card .btn-buy:hover {
+  background-color: #0056b3;
 }
 
 /* Seção de Contato */
@@ -78,6 +102,7 @@ header p {
   color: white;
   padding: 20px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .footer a {
@@ -99,53 +124,4 @@ header p {
   .game-card {
     margin: 10px 0;
   }
-}
-
-.game-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  text-align: center;
-  margin: 15px;
-  background-color: #fff;
-  height: 97%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.game-card img {
-  width: 100%;
-  height: 450px;
-  /* Define altura fixa */
-  object-fit: cover;
-  /* Corta e ajusta proporcionalmente */
-  border-radius: 8px;
-}
-
-.game-card h3 {
-  font-size: 1.5rem;
-  margin-top: 10px;
-  flex-grow: 1;
-  /* Expande o título para ocupar espaço */
-}
-
-.game-card .btn-buy {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.game-card .btn-buy:hover {
-  background-color: #0056b3;
-}
-
-.footer {
-  background-color: #333;
-  color: white;
-  padding: 20px;
 }
