@@ -68,7 +68,7 @@ if (isset($_SESSION['id_utilizador'])) {
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./pag/carrinho.php">Carrinho</a>
+                    <a class="nav-link" href="?page=favoritos-form">Carrinho</a>
                 </li>
 
                 <?php if ($isAdmin): ?>
@@ -81,7 +81,7 @@ if (isset($_SESSION['id_utilizador'])) {
 
                 <li class="nav-item">
                     <?php if (isset($_SESSION['id_utilizador'])): ?>
-                        <a class="nav-link text-white rounded px-3" href="./pag/logout.php"
+                        <a class="nav-link text-white rounded px-3" href="?page=logout"
                             style="background-color: #dc3545;">Logout</a>
                     <?php else: ?>
                         <a class="nav-link text-white rounded px-3" href="?page=login-form"

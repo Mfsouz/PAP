@@ -46,8 +46,8 @@ if (isset($_GET['page'])) {
                 include './pag/termos.php';
                 break;
 
-            case 'carrinho-form':
-                include './pag/carrinho.php';
+            case 'favoritos-form':
+                include './pag/favoritos.php';
                 break;
 
             case 'create-account-form':
@@ -72,6 +72,9 @@ if (isset($_GET['page'])) {
             
             case 'detalhes_jogos_form':
                 include './pag/detalhesJogo.php';
+                break;
+            case 'logout':
+                include './pag/logout.php';
                 break;
 
             }
