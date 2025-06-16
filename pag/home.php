@@ -109,7 +109,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 const action = isFavorito ? 'remover' : 'adicionar';
 
                 try {
-                    const response = await fetch('favorito.php', {
+                    const response = await fetch('./favorito.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
