@@ -55,7 +55,7 @@ if (isset($_GET['page'])) {
                 break;
 
             case 'admin-produtos-form':
-                include './admin/gerir_Produtos.php';
+                include './admin/produtos.php';
                 break;
                 
             case 'admin-index-form':
