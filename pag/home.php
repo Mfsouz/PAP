@@ -139,16 +139,46 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
                     btnMenos.classList.remove('d-none');
                 });
 
-                btnMenos.addEventListener('click', function () {
-                    maisProdutos.forEach(el => el.classList.add('d-none'));
-                    btnMais.classList.remove('d-none');
-                    btnMenos.classList.add('d-none');
-                    document.querySelector('.games-wrapper h2').scrollIntoView({
-                        behavior: 'smooth'
-                    });
+            btnMenos.addEventListener('click', function() {
+                maisProdutos.forEach(el => el.classList.add('d-none'));
+                btnMais.classList.remove('d-none');
+                btnMenos.classList.add('d-none');
+                document.querySelector('.games-wrapper h2').scrollIntoView({
+                    behavior: 'smooth'
                 });
-            }
-        });
-    </script>
+            });
+        }
 
-</div>
+        // Favoritos
+        document.querySelectorAll('.fav-btn').forEach(button => {
+            button.addEventListener('click', async function() {
+                const produtoId = this.getAttribute('data-produto-id');
+                const isFavorito = this.getAttribute('aria-pressed') === 'true';
+                const action = isFavorito ? 'remover' : 'adicionar';
+
+                try {
+                    const response = await fetch('./favorito.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            produto_id: produtoId,
+                            acao: action
+                        })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.setAttribute('aria-pressed', action === 'adicionar' ? 'true' : 'false');
+                        this.textContent = action === 'adicionar' ? '❤️' : '🤍';
+                    } else {
+                        alert('Erro: ' + (data.message || 'Não foi possível atualizar favorito.'));
+                    }
+                } catch (error) {
+                    alert('Erro de rede. Tente novamente.');
+                }
+            });
+        });
+    });
+</script>
