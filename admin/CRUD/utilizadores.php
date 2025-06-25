@@ -1,14 +1,11 @@
 <?php
-session_start();
-require 'config.php'; // Certifique-se de que $pdo está definido aqui
-
 $action = $_GET['action'] ?? 'list';
 $error = $_SESSION['error'] ?? '';
 unset($_SESSION['error']);
 
 function redirectToList()
 {
-    header("Location: ./utilizadores.php");
+    header("Location: ?page=admin-utilizadores-form");
     exit();
 }
 
@@ -22,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nome) || empty($email) || (!$id && empty($senha))) {
         $_SESSION['error'] = "Preencha todos os campos obrigatórios.";
-        header("Location: ./utilizadores.php?action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ?page=admin-utilizadores-form&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 
@@ -46,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirectToList();
     } catch (PDOException $e) {
         $_SESSION['error'] = "Erro ao salvar utilizador: " . $e->getMessage();
-        header("Location: ./utilizadores.php?action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ?page=admin-utilizadores-form&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 }
@@ -106,7 +103,7 @@ if ($action === 'delete') {
             ?>
 
             <h2><?= $editando ? "Editar Utilizador" : "Novo Utilizador" ?></h2>
-            <form method="post" action="./utilizadores.php">
+            <form method="post" action="?page=admin-utilizadores-form">
                 <?php if ($editando): ?>
                     <input type="hidden" name="id_utilizador" value="<?= $id ?>">
                 <?php endif; ?>
@@ -150,7 +147,7 @@ if ($action === 'delete') {
             ?>
 
             <h2>Utilizadores</h2>
-            <a href="./utilizadores.php?action=new" class="btn btn-success mb-3">Novo Utilizador</a>
+            <a href="?page=admin-utilizadores-form&action=new" class="btn btn-success mb-3">Novo Utilizador</a>
 
             <table class="table table-striped">
                 <thead>
@@ -168,9 +165,9 @@ if ($action === 'delete') {
                             <td><?= htmlspecialchars($user['email']) ?></td>
                             <td><?= $user['is_admin'] ? 'Sim' : 'Não' ?></td>
                             <td>
-                                <a href="./utilizadores.php?action=edit&id=<?= $user['id_utilizador'] ?>"
+                                <a href="?page=admin-utilizadores-form&action=edit&id=<?= $user['id_utilizador'] ?>"
                                     class="btn btn-primary btn-sm">Editar</a>
-                                <a href="./utilizadores.php?action=delete&id=<?= $user['id_utilizador'] ?>"
+                                <a href="?page=admin-utilizadores-form&action=delete&id=<?= $user['id_utilizador'] ?>"
                                     onclick="return confirm('Tem certeza que deseja excluir?');"
                                     class="btn btn-danger btn-sm">Excluir</a>
                             </td>

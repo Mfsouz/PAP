@@ -1,5 +1,4 @@
 <?php
-include './dbcon.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome_utilizador = trim($_POST['nome_utilizador'] ?? '');

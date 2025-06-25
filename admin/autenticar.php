@@ -1,7 +1,4 @@
 <?php
-session_start();
-include '../bd/dbcon.php';
-
 // Se o utilizador não estiver autenticado, redireciona para login
 if (!isset($_SESSION['id_utilizador'])) {
     header("Location: ../pag/login.php");

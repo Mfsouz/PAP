@@ -1,7 +1,4 @@
 <?php
-session_start();
-include './dbcon.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = trim($_POST['nome']);
     $nome_utilizador = trim($_POST['nome_utilizador']);

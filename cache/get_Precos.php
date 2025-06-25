@@ -13,7 +13,7 @@ if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheDuration)
 }
 
 // Caso contrário, consulta a API
-$apiUrl = "https://magicloops.dev/api/loop/3691ba69-edee-4374-a5ea-dfdeab2af05e/run";
+$apiUrl = "https://magicloops.dev/api/loop/20f0e736-07c5-4abd-8bd0-40b3ac1880f1/run";
 $apiUrlWithParams = $apiUrl . '?' . http_build_query(['jogo_nome' => $gameName]);
 
 $response = file_get_contents($apiUrlWithParams);

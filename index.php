@@ -34,6 +34,7 @@ if (isset($_GET['page'])) {
     <main class="container py-5">
         <?php
         switch ($page) {
+
             case 'login-form':
                 include './pag/login.php';
                 break;
@@ -54,13 +55,29 @@ if (isset($_GET['page'])) {
                 include './pag/criarConta.php';
                 break;
 
+
+
+
             case 'admin-produtos-form':
-                include './admin/produtos.php';
+                include './admin/CRUD/produtos.php';
                 break;
-                
-            case 'admin-index-form':
-                include './admin/index_admin.php';
+
+            case 'admin-utilizadores-form':
+                include './admin/CRUD/utilizadores.php';
                 break;
+
+
+            case 'admin-categorias-form':
+                include './admin/CRUD/categorias.php';
+                break;
+
+
+            case 'admin-subcategorias-form':
+                include './admin/CRUD/subcategorias.php';
+                break;
+
+
+
 
             case 'home-form':
                 include './pag/home.php';
@@ -69,15 +86,14 @@ if (isset($_GET['page'])) {
             case 'processa_login':
                 include './bd/processaLogin.php';
                 break;
-            
+
             case 'detalhes_jogos_form':
                 include './pag/detalhesJogo.php';
                 break;
             case 'logout':
                 include './pag/logout.php';
                 break;
-
-            }
+        }
 
         ?>
     </main>

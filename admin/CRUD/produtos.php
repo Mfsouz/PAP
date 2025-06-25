@@ -5,7 +5,7 @@ unset($_SESSION['error']);
 
 function redirectToList()
 {
-    header("Location: produtos.php");
+    header("Location: ?page=admin-produtos-form");
     exit();
 }
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nome) || empty($descricao)) {
         $_SESSION['error'] = "Preencha todos os campos obrigatórios.";
-        header("Location: produtos.php?action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ?page=admin-produtos-form&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirectToList();
     } catch (PDOException $e) {
         $_SESSION['error'] = "Erro ao salvar produto: " . $e->getMessage();
-        header("Location: produtos.php?action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: admin-produtos-form&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 }
@@ -83,10 +83,10 @@ if ($action === 'delete') {
                     exit;
                 }
             }
-            ?>
+        ?>
 
             <h2><?= $editando ? "Editar Produto" : "Novo Produto" ?></h2>
-            <form method="post" action="produtos.php">
+            <form method="post" action="?page=admin-produtos-form">
                 <?php if ($editando): ?>
                     <input type="hidden" name="id_produto" value="<?= htmlspecialchars($id) ?>">
                 <?php endif; ?>
@@ -104,7 +104,7 @@ if ($action === 'delete') {
                 </div>
 
                 <button type="submit" class="btn btn-primary"><?= $editando ? "Atualizar" : "Criar" ?></button>
-                <a href="produtos.php" class="btn btn-secondary">Cancelar</a>
+                <a href="?page=admin-produtos-form" class="btn btn-secondary">Cancelar</a>
             </form>
 
         <?php else:
@@ -115,10 +115,10 @@ if ($action === 'delete') {
                 echo "<div class='alert alert-danger'>Erro ao buscar produtos: " . $e->getMessage() . "</div>";
                 $produtos = [];
             }
-            ?>
+        ?>
 
             <h2>Produtos</h2>
-            <a href="produtos.php?action=new" class="btn btn-success mb-3">Novo Produto</a>
+            <a href="?page=admin-produtos-form&action=new" class="btn btn-success mb-3">Novo Produto</a>
 
             <table class="table table-striped">
                 <thead>
@@ -134,9 +134,9 @@ if ($action === 'delete') {
                             <td><?= htmlspecialchars($produto['nome']) ?></td>
                             <td><?= htmlspecialchars($produto['descricao']) ?></td>
                             <td>
-                                <a href="produtos.php?action=edit&id=<?= $produto['id_produto'] ?>"
+                                <a href="?page=admin-produtos-form&action=edit&id=<?= $produto['id_produto'] ?>"
                                     class="btn btn-primary btn-sm">Editar</a>
-                                <a href="produtos.php?action=delete&id=<?= $produto['id_produto'] ?>"
+                                <a href="?page=admin-produtos-form&id=<?= $produto['id_produto'] ?>"
                                     onclick="return confirm('Tem certeza que deseja excluir?');"
                                     class="btn btn-danger btn-sm">Excluir</a>
                             </td>

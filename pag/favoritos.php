@@ -5,7 +5,7 @@ if (!isset($_SESSION['id_utilizador'])) {
     exit;
 }
 
-$user_id = $_SESSION['id_utilizador'];
+$id_utilizador = $_SESSION['id_utilizador'];
 ?>
 
 <div class="favorites-container" style="max-width:800px; margin:auto; background:white; padding:20px; border-radius:10px; font-family:Arial, sans-serif;">
@@ -16,11 +16,11 @@ $user_id = $_SESSION['id_utilizador'];
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        carregarFavoritos(<?= $user_id ?>);
+        carregarFavoritos(<?= $id_utilizador ?>);
     });
 
-    async function carregarFavoritos(userId) {
-        const res = await fetch("getFavoritos.php?user_id=" + userId);
+    async function carregarFavoritos(id_Utilizador) {
+        const res = await fetch("getFavoritos.php?id_utilizador=" + id_Utilizador);
         const favoritos = await res.json();
         const container = document.getElementById('favorites-list');
         const emptyMsg = document.getElementById('favorites-empty');
@@ -41,16 +41,16 @@ $user_id = $_SESSION['id_utilizador'];
                         <h3 style="margin:0;">${item.nome}</h3>
                     </div>
                     <button style="background:#dc3545; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;"
-                        onclick="removerFavorito(${item.id}, ${userId})">Remover</button>
+                        onclick="removerFavorito(${item.id}, ${id_Utilizador})">Remover</button>
                 </div>
             `;
             container.innerHTML += itemHtml;
         });
     }
 
-    async function removerFavorito(itemId, userId) {
+    async function removerFavorito(id_item, id_Utilizador) {
         // Supondo que removeFavorito.php faz o delete do favorito para o user
-        await fetch(`removeFavorito.php?id=${itemId}&user_id=${userId}`);
-        carregarFavoritos(userId);
+        await fetch(`removeFavorito.php?id=${id_item}&id_utilizador=${id_Utilizador}`);
+        carregarFavoritos(id_Utilizador);
     }
 </script>

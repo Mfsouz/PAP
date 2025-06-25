@@ -1,5 +1,4 @@
 <?php
-include './bd/dbcon.php';  // ajusta o caminho
 
 $utilizador_logado = isset($_SESSION['id_utilizador']);
 
@@ -33,7 +32,6 @@ $stmt_novos = $pdo->prepare($query_novos);
 $stmt_novos->execute();
 $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <div class="games-wrapper">
 
     <!-- Catálogo Completo -->

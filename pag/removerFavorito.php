@@ -1,7 +1,4 @@
 <?php
-session_start();
-include './bd/dbcon.php';
-
 // Verifica se o utilizador está autenticado
 if (!isset($_SESSION['id_utilizador'])) {
     http_response_code(401);

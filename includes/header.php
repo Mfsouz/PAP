@@ -1,5 +1,4 @@
 <?php
-include './bd/dbcon.php';
 
 $isAdmin = false;
 if (isset($_SESSION['id_utilizador'])) {
@@ -8,6 +7,8 @@ if (isset($_SESSION['id_utilizador'])) {
     $isAdmin = $stmt->fetchColumn() == 1;
 }
 ?>
+<!DOCTYPE html>
+<html lang="pt">
 
 <head>
     <meta charset="UTF-8">
@@ -20,100 +21,103 @@ if (isset($_SESSION['id_utilizador'])) {
     <link href="./css/style_home.css" rel="stylesheet">
 </head>
 
-<!-- Barra de Navegação -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
-    style="height: 60px; display: flex; justify-content: flex-start;">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="?page=home-form">
-            <img src="./img/logo.png" alt="8Bit" style="height: 70px; max-height: none; position: relative; top: 0px;"
-                class="d-inline-block align-text-top">
-        </a>
+<body>
+    <!-- Barra de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 60px; display: flex; justify-content: flex-start;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="?page=home-form">
+                <img src="./img/logo.png" alt="8Bit" style="height: 70px; max-height: none; position: relative; top: 0px;" class="d-inline-block align-text-top">
+            </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="?page=home-form">Início</a>
-                </li>
-
-                <!-- Dropdown de Categorias -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Categorias
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
-                        <?php
-                        try {
-                            $stmt = $pdo->prepare("
-                SELECT c.id_categoria, c.nome_categoria, s.id_subcategoria, s.nome_subcategoria
-                FROM categorias c
-                LEFT JOIN subcategorias s ON c.id_categoria = s.categoria_fk
-                ORDER BY c.nome_categoria, s.nome_subcategoria
-            ");
-                            $stmt->execute();
-                            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                            $agrupadas = [];
-                            foreach ($rows as $row) {
-                                $catId = $row['id_categoria'];
-                                $agrupadas[$catId]['nome'] = $row['nome_categoria'];
-                                if ($row['id_subcategoria']) {
-                                    $agrupadas[$catId]['subs'][] = [
-                                        'id' => $row['id_subcategoria'],
-                                        'nome' => $row['nome_subcategoria']
-                                    ];
-                                }
-                            }
-
-                            foreach ($agrupadas as $catId => $cat) {
-                                if (!empty($cat['subs'])) {
-                                    echo '<li class="dropdown-submenu">';
-                                    echo '<a class="dropdown-item dropdown-toggle" href="#">' . htmlspecialchars($cat['nome']) . '</a>';
-                                    echo '<ul class="dropdown-menu">';
-                                    foreach ($cat['subs'] as $sub) {
-                                        echo '<li><a class="dropdown-item" href="./?sc=' . $sub['id'] . '">' . htmlspecialchars($sub['nome']) . '</a></li>';
-                                    }
-                                    echo '</ul></li>';
-                                } else {
-                                    echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($cat['nome']) . '</a></li>';
-                                }
-                            }
-                        } catch (PDOException $e) {
-                            echo '<li><span class="dropdown-item text-danger">Erro ao carregar categorias</span></li>';
-                        }
-                        ?>
-                    </ul>
-                </li>
-
-
-
-                <li class="nav-item">
-                    <a class="nav-link" href="?page=favoritos-form">Carrinho</a>
-                </li>
-
-                <?php if ($isAdmin): ?>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-warning fw-bold" href="?page=admin-produtos-form">
-                            <i class="bi bi-gear-fill"></i> Administração
-                        </a>
+                        <a class="nav-link active" aria-current="page" href="?page=home-form">Início</a>
                     </li>
-                <?php endif; ?>
 
-                <li class="nav-item">
-                    <?php if (isset($_SESSION['id_utilizador'])): ?>
-                        <a class="nav-link text-white rounded px-3" href="?page=logout"
-                            style="background-color: #dc3545;">Logout</a>
-                    <?php else: ?>
-                        <a class="nav-link text-white rounded px-3" href="?page=login-form"
-                            style="background-color: #e83e8c;">Login</a>
+                    <!-- Dropdown de Categorias -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categorias
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                            <?php
+                            try {
+                                $stmt = $pdo->prepare("
+                                SELECT c.id_categoria, c.nome_categoria, s.id_subcategoria, s.nome_subcategoria 
+                                FROM categorias c 
+                                LEFT JOIN subcategorias s ON c.id_categoria = s.categoria_fk 
+                                ORDER BY c.nome_categoria, s.nome_subcategoria
+                            ");
+                                $stmt->execute();
+                                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                $agrupadas = [];
+                                foreach ($rows as $row) {
+                                    $catId = $row['id_categoria'];
+                                    $agrupadas[$catId]['nome'] = $row['nome_categoria'];
+                                    if ($row['id_subcategoria']) {
+                                        $agrupadas[$catId]['subs'][] = [
+                                            'id' => $row['id_subcategoria'],
+                                            'nome' => $row['nome_subcategoria']
+                                        ];
+                                    }
+                                }
+
+                                foreach ($agrupadas as $catId => $cat) {
+                                    if (!empty($cat['subs'])) {
+                                        echo '<li class="dropdown-submenu">';
+                                        echo '<a class="dropdown-item dropdown-toggle" href="#">' . htmlspecialchars($cat['nome']) . '</a>';
+                                        echo '<ul class="dropdown-menu">';
+                                        foreach ($cat['subs'] as $sub) {
+                                            echo '<li><a class="dropdown-item" href="./?sc=' . $sub['id'] . '">' . htmlspecialchars($sub['nome']) . '</a></li>';
+                                        }
+                                        echo '</ul></li>';
+                                    } else {
+                                        echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($cat['nome']) . '</a></li>';
+                                    }
+                                }
+                            } catch (PDOException $e) {
+                                echo '<li><span class="dropdown-item text-danger">Erro ao carregar categorias</span></li>';
+                            }
+                            ?>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="?page=favoritos-form">Favoritos</a>
+                    </li>
+
+                    <?php if ($isAdmin): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-warning fw-bold" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-gear-fill"></i> Administração
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+                                <li><a class="dropdown-item" href="?page=admin-produtos-form">Produtos</a></li>
+                                <li><a class="dropdown-item" href="?page=admin-utilizadores-form">Utilizadores</a></li>
+                                <li><a class="dropdown-item" href="?page=admin-categorias-form">Categorias</a></li>
+                                <li><a class="dropdown-item" href="?page=admin-subcategorias-form">Subcategorias</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item text-danger" href="?page=admin-logs-form">Ver Logs</a></li>
+                            </ul>
+                        </li>
                     <?php endif; ?>
-                </li>
-            </ul>
+
+                    <li class="nav-item">
+                        <?php if (isset($_SESSION['id_utilizador'])): ?>
+                            <a class="nav-link text-white rounded px-3" href="?page=logout" style="background-color: #dc3545;">Logout</a>
+                        <?php else: ?>
+                            <a class="nav-link text-white rounded px-3" href="?page=login-form" style="background-color: #e83e8c;">Login</a>
+                        <?php endif; ?>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
