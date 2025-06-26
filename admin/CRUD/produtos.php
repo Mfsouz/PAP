@@ -5,7 +5,7 @@ unset($_SESSION['error']);
 
 function redirectToList()
 {
-    header("Location: ?page=admin-produtos-form");
+    header("Location: ./produtos.php");
     exit();
 }
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nome) || empty($descricao)) {
         $_SESSION['error'] = "Preencha todos os campos obrigatórios.";
-        header("Location: ?page=admin-produtos-form&action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ./produtos.php&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirectToList();
     } catch (PDOException $e) {
         $_SESSION['error'] = "Erro ao salvar produto: " . $e->getMessage();
-        header("Location: admin-produtos-form&action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ./produtos.php&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 }

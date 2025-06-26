@@ -5,7 +5,7 @@ unset($_SESSION['error']);
 
 function redirectToList()
 {
-    header("Location: admin-subcategorias-form");
+    header("Location: ./subcategorias.php");
     exit();
 }
 
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nome)) {
         $_SESSION['error'] = "Preencha todos os campos obrigatórios.";
-        header("Location: admin-subcategorias-form&action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ./subcategorias.php&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirectToList();
     } catch (PDOException $e) {
         $_SESSION['error'] = "Erro ao salvar subcategoria: " . $e->getMessage();
-        header("Location: admin-subcategorias-form&action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ./subcategorias.php&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 }

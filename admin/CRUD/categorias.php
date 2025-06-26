@@ -5,7 +5,7 @@ unset($_SESSION['error']);
 
 function redirectToList()
 {
-    header("Location: ?page=admin-categorias-form");
+    header("Location: ./categorias.php");
     exit();
 }
 
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nome)) {
         $_SESSION['error'] = "Preencha o campo obrigatório.";
-        header("Location: ?page=admin-categorias-form&action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ./categorias.php&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirectToList();
     } catch (PDOException $e) {
         $_SESSION['error'] = "Erro ao salvar categoria: " . $e->getMessage();
-        header("Location: ?page=admin-categorias-form&action=" . ($id ? "edit&id=$id" : "new"));
+        header("Location: ./categorias.php&action=" . ($id ? "edit&id=$id" : "new"));
         exit();
     }
 }

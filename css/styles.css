@@ -49,11 +49,12 @@ header p {
 .game-card {
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
-  margin: 15px;
+  margin: 10px;
   background-color: #fff;
-  height: 97%;
+  height: auto;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,14 +67,14 @@ header p {
 
 .game-card img {
   width: 100%;
-  height: 450px;
+  height: 250px;
   object-fit: cover;
   border-radius: 8px;
 }
 
 .game-card h3 {
-  font-size: 1.5rem;
-  margin-top: 10px;
+  font-size: 1.2rem;
+  margin-top: 8px;
   flex-grow: 1;
 }
 

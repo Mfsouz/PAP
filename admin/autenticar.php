@@ -12,7 +12,7 @@ $isAdmin = $stmt->fetchColumn();
 
 // Se não for admin, redireciona para o site público
 if ($isAdmin != 1) {
-    header("Location: ../index.php");
+    header("Location: ../pag/home.php");
     exit();
 }
 ?>

@@ -1,11 +1,11 @@
 .game-card {
     border: 1px solid #ddd;
     border-radius: 10px;
-    padding: 15px;
-    /* Aumentei um pouco o padding */
+    padding: 12px;
+    /* um pouco menos que 15px */
     text-align: center;
-    margin: 15px;
-    /* margens maiores */
+    margin: 12px;
+    /* margem reduzida */
     background-color: #fff;
     height: 100%;
     display: flex;
@@ -15,32 +15,32 @@
 
 .game-card img {
     width: 100%;
-    height: 350px;
-    /* Aumentei de 250px para 350px */
+    height: 280px;
+    /* reduzido de 350px para 280px */
     object-fit: cover;
     border-radius: 8px;
 }
 
 .game-card h3 {
-    font-size: 1.8rem;
-    /* Aumentei de 1.5rem para 1.8rem */
-    margin-top: 15px;
-    /* aumentei a margem superior */
+    font-size: 1.5rem;
+    /* reduzido de 1.8rem para 1.5rem */
+    margin-top: 12px;
+    /* margem reduzida */
     flex-grow: 1;
 }
-
-
 
 .games-wrapper {
     border: 1px solid #ddd;
     border-radius: 15px;
     background-color: #fff;
     box-shadow: 0 0px 25px rgb(57, 116, 204);
-    padding: 15px;
+    padding: 12px;
+    /* reduzido de 15px para 12px */
 }
 
 .games-wrapper h2 {
-    font-size: 3rem !important;
+    font-size: 2.5rem !important;
+    /* reduzido de 3rem para 2.5rem */
     font-weight: 500;
     text-align: center;
     background: linear-gradient(90deg, #007bff, #ff69b4);
@@ -49,7 +49,8 @@
     -webkit-background-clip: text;
     color: transparent;
     animation: gradientFade 2s ease infinite;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    /* reduzido */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     line-height: 1.2;
     padding-bottom: 10px;
