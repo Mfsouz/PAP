@@ -6,6 +6,11 @@ if (isset($_SESSION['id_utilizador'])) {
     $stmt->execute([$_SESSION['id_utilizador']]);
     $isAdmin = $stmt->fetchColumn() == 1;
 }
+
+$subcat = 0;
+if (isset($_GET['sc'])) {
+    $subcat = (int) $_GET['sc']; // cast para int para segurança
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -47,39 +52,16 @@ if (isset($_SESSION['id_utilizador'])) {
                         <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
                             <?php
                             try {
-                                $stmt = $pdo->prepare("
-                                SELECT c.id_categoria, c.nome_categoria, s.id_subcategoria, s.nome_subcategoria 
-                                FROM categorias c 
-                                LEFT JOIN subcategorias s ON c.id_categoria = s.categoria_fk 
-                                ORDER BY c.nome_categoria, s.nome_subcategoria
-                            ");
+                                $stmt = $pdo->prepare("SELECT id_subcategoria, nome_subcategoria FROM subcategorias");
                                 $stmt->execute();
-                                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                                $agrupadas = [];
-                                foreach ($rows as $row) {
-                                    $catId = $row['id_categoria'];
-                                    $agrupadas[$catId]['nome'] = $row['nome_categoria'];
-                                    if ($row['id_subcategoria']) {
-                                        $agrupadas[$catId]['subs'][] = [
-                                            'id' => $row['id_subcategoria'],
-                                            'nome' => $row['nome_subcategoria']
-                                        ];
+                                if (count($categorias) > 0) {
+                                    foreach ($categorias as $row) {
+                                        echo '<li><a class="dropdown-item" href="./?page=home-form&sc=' . $row['id_subcategoria'] . '">' . htmlspecialchars($row['nome_subcategoria']) . '</a></li>';
                                     }
-                                }
-
-                                foreach ($agrupadas as $catId => $cat) {
-                                    if (!empty($cat['subs'])) {
-                                        echo '<li class="dropdown-submenu">';
-                                        echo '<a class="dropdown-item dropdown-toggle" href="#">' . htmlspecialchars($cat['nome']) . '</a>';
-                                        echo '<ul class="dropdown-menu">';
-                                        foreach ($cat['subs'] as $sub) {
-                                            echo '<li><a class="dropdown-item" href="./?sc=' . $sub['id'] . '">' . htmlspecialchars($sub['nome']) . '</a></li>';
-                                        }
-                                        echo '</ul></li>';
-                                    } else {
-                                        echo '<li><a class="dropdown-item" href="#">' . htmlspecialchars($cat['nome']) . '</a></li>';
-                                    }
+                                } else {
+                                    echo '<li><span class="dropdown-item text-muted">Nenhuma categoria</span></li>';
                                 }
                             } catch (PDOException $e) {
                                 echo '<li><span class="dropdown-item text-danger">Erro ao carregar categorias</span></li>';

@@ -2,29 +2,37 @@
 $gameName = $_GET['jogo_nome'] ?? '';
 $cacheKey = md5($gameName);
 $cacheFile = __DIR__ . "/cache_salvo/{$cacheKey}.json";
-$cacheDuration = 3600; // 1 hora
+$cacheDuration = 3600;
 
-// Verifica se o cache existe e ainda está válido
+header('Content-Type: application/json');
+
+if (empty($gameName)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Parâmetro jogo_nome em falta']);
+    exit;
+}
+
 if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheDuration)) {
-    // Devolve o cache
-    header('Content-Type: application/json');
     echo file_get_contents($cacheFile);
     exit;
 }
 
-// Caso contrário, consulta a API
-$apiUrl = "https://magicloops.dev/api/loop/20f0e736-07c5-4abd-8bd0-40b3ac1880f1/run";
+$apiUrl = "https://magicloops.dev/api/loop/773f84df-aeb8-4634-ac43-1b4e8f4ebf1d/run";
 $apiUrlWithParams = $apiUrl . '?' . http_build_query(['jogo_nome' => $gameName]);
 
 $response = file_get_contents($apiUrlWithParams);
 
 if ($response !== false) {
-    // Salva em cache
-    file_put_contents($cacheFile, $response);
+    $json = json_decode($response, true);
 
-    header('Content-Type: application/json');
-    echo $response;
+    if (json_last_error() === JSON_ERROR_NONE) {
+        file_put_contents($cacheFile, json_encode($json));
+        echo json_encode($json);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Resposta inválida da API (JSON malformado)']);
+    }
 } else {
-    http_response_code(500);
+    http_response_code(502);
     echo json_encode(['error' => 'Erro ao obter dados da API']);
 }
