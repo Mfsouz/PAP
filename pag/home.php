@@ -134,9 +134,9 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
                         <span class="badge bg-success">Novidade!</span>
                         <?php if ($utilizador_logado): ?>
                             <a href="?page=detalhes_jogos_form&id=<?= $produto['id_produto']; ?>"
-                                class="btn btn-primary w-100 mt-2">Comprar</a>
+                                class="btn btn-primary w-100 mt-2">Ver produto</a>
                         <?php else: ?>
-                            <a href="?page=login-form" class="btn btn-secondary w-100 mt-2">Entrar para comprar</a>
+                            <a href="?page=login-form" class="btn btn-secondary w-100 mt-2">Entrar para ver produto</a>
                         <?php endif; ?>
                     </div>
                 </div>
