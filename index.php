@@ -24,7 +24,8 @@ if (isset($_GET['page'])) {
     <?php include './includes/header.php'; ?>
 
     <!-- Seção de Destaque -->
-    <header style="background: linear-gradient(90deg, #0d6efd, #e83e8c); color: white; text-align: center; padding: 3rem 0;">
+    <header
+        style="background: linear-gradient(90deg, #0d6efd, #e83e8c); color: white; text-align: center; padding: 3rem 0;">
         <div class="container">
             <h1>Bem-vindo à Loja de Jogos</h1>
             <p>Encontre os melhores jogos com descontos exclusivos!</p>
@@ -45,10 +46,6 @@ if (isset($_GET['page'])) {
 
             case 'termos-form':
                 include './pag/termos.php';
-                break;
-
-            case 'favoritos-form':
-                include './pag/favoritos.php';
                 break;
 
             case 'create-account-form':
@@ -76,8 +73,14 @@ if (isset($_GET['page'])) {
                 include './admin/CRUD/subcategorias.php';
                 break;
 
+            case 'admin-criadoras-form':
+                include './admin/CRUD/criadoras.php';
+                break;
 
 
+            case 'perfil-form':
+                include './pag/perfil.php';
+                break;
 
             case 'home-form':
                 include './pag/home.php';
@@ -92,7 +95,12 @@ if (isset($_GET['page'])) {
                 break;
             case 'logout':
                 include './pag/logout.php';
+                break;   
+
+            case 'editar-perfil':
+                include './pag/editar_perfil.php';
                 break;
+
         }
 
         ?>

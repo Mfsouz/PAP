@@ -28,13 +28,17 @@ if (isset($_GET['sc'])) {
 
 <body>
     <!-- Barra de Navegação -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 60px; display: flex; justify-content: flex-start;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+        style="height: 60px; display: flex; justify-content: flex-start;">
         <div class="container-fluid">
             <a class="navbar-brand" href="?page=home-form">
-                <img src="./img/logo.png" alt="8Bit" style="height: 70px; max-height: none; position: relative; top: 0px;" class="d-inline-block align-text-top">
+                <img src="./img/logo.png" alt="8Bit"
+                    style="height: 70px; max-height: none; position: relative; top: 0px;"
+                    class="d-inline-block align-text-top">
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -46,7 +50,8 @@ if (isset($_GET['sc'])) {
 
                     <!-- Dropdown de Categorias -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Categorias
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
@@ -70,13 +75,17 @@ if (isset($_GET['sc'])) {
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=favoritos-form">Favoritos</a>
-                    </li>
+                    <?php if (isset($_SESSION['id_utilizador'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=perfil-form">Perfil</a>
+                        </li>
+                    <?php endif; ?>
+
 
                     <?php if ($isAdmin): ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-warning fw-bold" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-warning fw-bold" href="#" id="adminDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-gear-fill"></i> Administração
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
@@ -84,19 +93,18 @@ if (isset($_GET['sc'])) {
                                 <li><a class="dropdown-item" href="?page=admin-utilizadores-form">Utilizadores</a></li>
                                 <li><a class="dropdown-item" href="?page=admin-categorias-form">Categorias</a></li>
                                 <li><a class="dropdown-item" href="?page=admin-subcategorias-form">Subcategorias</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item text-danger" href="?page=admin-logs-form">Ver Logs</a></li>
+                                <li><a class="dropdown-item" href="?page=admin-criadoras-form">Criadoras</a></li>
                             </ul>
                         </li>
                     <?php endif; ?>
 
                     <li class="nav-item">
                         <?php if (isset($_SESSION['id_utilizador'])): ?>
-                            <a class="nav-link text-white rounded px-3" href="?page=logout" style="background-color: #dc3545;">Logout</a>
+                            <a class="nav-link text-white rounded px-3" href="?page=logout"
+                                style="background-color: #dc3545;">Logout</a>
                         <?php else: ?>
-                            <a class="nav-link text-white rounded px-3" href="?page=login-form" style="background-color: #e83e8c;">Login</a>
+                            <a class="nav-link text-white rounded px-3" href="?page=login-form"
+                                style="background-color: #e83e8c;">Login</a>
                         <?php endif; ?>
                     </li>
                 </ul>
