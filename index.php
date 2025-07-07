@@ -82,10 +82,6 @@ if (isset($_GET['page'])) {
                 include './pag/perfil.php';
                 break;
 
-            case 'home-form':
-                include './pag/home.php';
-                break;
-
             case 'processa_login':
                 include './bd/processaLogin.php';
                 break;
@@ -93,14 +89,14 @@ if (isset($_GET['page'])) {
             case 'detalhes_jogos_form':
                 include './pag/detalhesJogo.php';
                 break;
-            case 'logout':
-                include './pag/logout.php';
-                break;   
 
             case 'editar-perfil':
                 include './pag/editar_perfil.php';
                 break;
 
+            default:
+                include './pag/home.php';
+                break;
         }
 
         ?>

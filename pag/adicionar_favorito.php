@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'conexao.php'; // substitui pelo nome do teu ficheiro de conexão
+require '../bd/dbcon.php'; // substitui pelo nome do teu ficheiro de conexão
 
 if (!isset($_SESSION['id_utilizador']) || !isset($_POST['id_produto'])) {
     http_response_code(401);

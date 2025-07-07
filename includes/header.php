@@ -21,7 +21,6 @@ if (isset($_GET['sc'])) {
     <title>8Bit</title>
     <link rel="icon" href="./img/logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/novos_Jogos.css">
     <link href="./css/style_home.css" rel="stylesheet">
 </head>
@@ -100,7 +99,7 @@ if (isset($_GET['sc'])) {
 
                     <li class="nav-item">
                         <?php if (isset($_SESSION['id_utilizador'])): ?>
-                            <a class="nav-link text-white rounded px-3" href="?page=logout"
+                            <a class="nav-link text-white rounded px-3" href="./pag/logout.php"
                                 style="background-color: #dc3545;">Logout</a>
                         <?php else: ?>
                             <a class="nav-link text-white rounded px-3" href="?page=login-form"

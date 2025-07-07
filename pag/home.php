@@ -184,6 +184,7 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
                     })
                         .then(response => response.text())
                         .then(data => {
+                            console.log('Resposta do servidor:', data);
                             if (data === "adicionado") {
                                 self.classList.remove('btn-outline-danger');
                                 self.classList.add('btn-danger');
@@ -199,6 +200,7 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
                         });
                 });
             });
-
+        });
     </script>
+
 </div>

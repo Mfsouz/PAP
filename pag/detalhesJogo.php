@@ -29,8 +29,18 @@ try {
 // Buscar avaliações do jogo
 $avaliacoes = [];
 try {
-    $stmt = $pdo->prepare("SELECT * FROM utilizador_avaliacao WHERE id_produto = ? ORDER BY data DESC LIMIT 5");
-    $stmt->execute([$jogoId]);
+$stmt = $pdo->prepare("
+    SELECT a.avaliacao, c.comentario, a.data, a.id_utilizador
+    FROM utilizador_avaliacao a
+    JOIN utilizador_comentario c
+        ON a.id_utilizador = c.id_utilizador
+        AND a.id_produto = c.id_produto
+    WHERE a.id_produto = ?
+    ORDER BY a.data DESC
+    LIMIT 5
+");
+$stmt->execute([$jogoId]);
+
     $avaliacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $erroAvaliacoes = "Não foi possível carregar as avaliações";
@@ -387,7 +397,7 @@ if (!empty($avaliacoes)) {
             sectionHtml += `</div>`;
             return sectionHtml;
         }
-        });
+        );
     </script>
 </body>
 
