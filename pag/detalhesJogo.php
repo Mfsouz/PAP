@@ -9,11 +9,10 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $jogoId = (int) $_GET['id'];
 
 try {
-    $stmt = $pdo->prepare("SELECT produtos.*, subcategorias.nome_subcategoria, criadoras.nome_criadora, produto_imagem.link_imagem
-                                  FROM produtos, subcategorias, criadoras, produto_imagem
+    $stmt = $pdo->prepare("SELECT produtos.*, subcategorias.nome_subcategoria, criadoras.nome_criadora, produtos.imagem_path
+                                  FROM produtos, subcategorias, criadoras
                                   WHERE produtos.subcategoria_fk = subcategorias.id_subcategoria
                                   AND produtos.criadora_fk = criadoras.id_criadora
-                                  AND produtos.imagem_fk = produto_imagem.id_imagem
                                   AND id_produto = ?");
     $stmt->execute([$jogoId]);
     $jogo = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -182,7 +181,7 @@ if (!empty($avaliacoes)) {
         <div class="jogo-header">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="./img/Games/<?= htmlspecialchars($jogo['link_imagem']) ?>"
+                    <img src="./img/Games/<?= htmlspecialchars($jogo['imagem_path']) ?>"
                         alt="<?= htmlspecialchars($jogo['nome']) ?>" class="jogo-capa">
                 </div>
                 <div class="col-md-8">

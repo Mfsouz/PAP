@@ -18,10 +18,9 @@ if (!$utilizador) {
 
 // Buscar favoritos
 $stmt_fav = $pdo->prepare("
-    SELECT p.*, pi.link_imagem
+    SELECT p.*
     FROM utilizador_favorito uf
     JOIN produtos p ON uf.id_produto = p.id_produto
-    JOIN produto_imagem pi ON p.imagem_fk = pi.id_imagem
     WHERE uf.id_utilizador = :id
 ");
 $stmt_fav->execute(['id' => $id]);
@@ -79,8 +78,8 @@ $favoritos = $stmt_fav->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($favoritos as $jogo): ?>
                         <div class="col-sm-6 col-lg-4 mb-4">
                             <div class="card h-100">
-                                <?php if (!empty($jogo['link_imagem']) && file_exists('./img/Games/' . $jogo['link_imagem'])): ?>
-                                    <img src="./img/Games/<?= htmlspecialchars($jogo['link_imagem']) ?>" class="card-img-top"
+                                <?php if (!empty($jogo['imagem_path']) && file_exists('./img/Games/' . $jogo['imagem_path'])): ?>
+                                    <img src="./img/Games/<?= htmlspecialchars($jogo['imagem_path']) ?>" class="card-img-top"
                                         alt="<?= htmlspecialchars($jogo['nome']) ?>">
                                 <?php else: ?>
                                     <img src="./img/no-image.png" class="card-img-top" alt="Sem imagem">

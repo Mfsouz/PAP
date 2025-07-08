@@ -4,12 +4,16 @@ $id_utilizador = $_SESSION['id_utilizador'] ?? null;
 
 $subcat = isset($_GET['sc']) ? (int) $_GET['sc'] : 0;
 $termo_pesquisa = $_GET['pesquisa'] ?? '';
+$id_criador = isset($_GET['criador']) ? (int) $_GET['criador'] : 0;
+
 $params = [];
 
-$query = "SELECT produtos.*, produto_imagem.link_imagem, produto_imagem.titulo, produto_imagem.descricao
-            FROM produtos
-            INNER JOIN produto_imagem ON produto_imagem.id_imagem = produtos.imagem_fk
-            WHERE 1 = 1";
+// Buscar criadores para o filtro
+$stmt_criadores = $pdo->query("SELECT id_criadora, nome_criadora FROM criadoras ORDER BY nome_criadora");
+$criadores = $stmt_criadores->fetchAll(PDO::FETCH_ASSOC);
+
+// Query principal
+$query = "SELECT produtos.* FROM produtos WHERE 1=1";
 
 if (!empty($termo_pesquisa)) {
     $query .= " AND produtos.nome LIKE :pesquisa";
@@ -21,11 +25,16 @@ if ($subcat !== 0) {
     $params['subcat'] = $subcat;
 }
 
+if ($id_criador !== 0) {
+    $query .= " AND produtos.criadora_fk = :criadora";
+    $params['criadora'] = $id_criador;
+}
+
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Buscar favoritos do utilizador logado (para marcar botões)
+// Buscar favoritos do utilizador logado
 $favoritos_ids = [];
 if ($utilizador_logado) {
     $stmt_fav = $pdo->prepare("SELECT id_produto FROM utilizador_favorito WHERE id_utilizador = ?");
@@ -33,10 +42,8 @@ if ($utilizador_logado) {
     $favoritos_ids = array_column($stmt_fav->fetchAll(PDO::FETCH_ASSOC), 'id_produto');
 }
 
-$query_novos = "SELECT produtos.*, produto_imagem.link_imagem, produto_imagem.titulo, produto_imagem.descricao
-                    FROM produtos
-                    INNER JOIN produto_imagem ON produto_imagem.id_imagem = produtos.imagem_fk
-                    WHERE produtos.data_pub >= DATE_SUB(NOW(), INTERVAL 5 DAY)";
+// Novos jogos
+$query_novos = "SELECT produtos.* FROM produtos WHERE produtos.data_pub >= DATE_SUB(NOW(), INTERVAL 5 DAY)";
 $stmt_novos = $pdo->prepare($query_novos);
 $stmt_novos->execute();
 $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
@@ -44,21 +51,33 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="games-wrapper">
     <!-- Pesquisa -->
-    <form method="GET" class="d-flex justify-content-center mb-4">
+    <form method="GET" class="d-flex justify-content-center mb-4 flex-wrap">
         <input type="hidden" name="page" value="home-form">
         <?php if ($subcat !== 0): ?>
             <input type="hidden" name="sc" value="<?= $subcat ?>">
         <?php endif; ?>
-        <input type="text" name="pesquisa" class="form-control w-50 me-2" placeholder="Pesquisar jogo por nome..."
+
+        <input type="text" name="pesquisa" class="form-control w-50 me-2 mb-2" placeholder="Pesquisar jogo por nome..."
             value="<?= htmlspecialchars($termo_pesquisa) ?>">
-        <button type="submit" class="btn btn-primary">Pesquisar</button>
+
+        <!-- Filtro por Criador -->
+        <select name="criador" class="form-select w-auto me-2 mb-2">
+            <option value="0">Todos os Criadores</option>
+            <?php foreach ($criadores as $c): ?>
+                <option value="<?= $c['id_criadora'] ?>" <?= $id_criador == $c['id_criadora'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($c['nome_criadora']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <button type="submit" class="btn btn-primary mb-2">Pesquisar</button>
     </form>
 
     <!-- Catálogo -->
     <h2 class="text-center mb-4"><i class="bi bi-controller"></i> Catálogo</h2>
     <div class="row">
         <?php if (empty($produtos)): ?>
-            <div class="alert alert-warning text-center">Nenhum jogo encontrado com esse nome.</div>
+            <div class="alert alert-warning text-center">Nenhum jogo encontrado com os filtros aplicados.</div>
         <?php endif; ?>
 
         <?php foreach ($produtos as $index => $produto): ?>
@@ -68,8 +87,8 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
             ?>
             <div class="col-md-4<?= $classe_oculta; ?>">
                 <div class="game-card">
-                    <?php if (!empty($produto['link_imagem']) && file_exists('./img/Games/' . $produto['link_imagem'])): ?>
-                        <img src="./img/Games/<?= htmlspecialchars($produto['link_imagem']); ?>"
+                    <?php if (!empty($produto['imagem_path']) && file_exists('./img/Games/' . $produto['imagem_path'])): ?>
+                        <img src="./img/Games/<?= htmlspecialchars($produto['imagem_path']); ?>"
                             alt="<?= htmlspecialchars($produto['nome']); ?>">
                     <?php else: ?>
                         <img src="./img/no-image.png" alt="Imagem não disponível">
@@ -106,8 +125,8 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($produtos_com_desconto as $produto): ?>
                 <div class="col-md-4">
                     <div class="game-card">
-                        <?php if (!empty($produto['link_imagem']) && file_exists('./img/Games/' . $produto['link_imagem'])): ?>
-                            <img src="./img/Games/<?= htmlspecialchars($produto['link_imagem']); ?>"
+                        <?php if (!empty($produto['imagem_path']) && file_exists('./img/Games/' . $produto['imagem_path'])): ?>
+                            <img src="./img/Games/<?= htmlspecialchars($produto['imagem_path']); ?>"
                                 alt="<?= htmlspecialchars($produto['nome']); ?>">
                         <?php else: ?>
                             <img src="./img/no-image.png" alt="Imagem não disponível">
@@ -131,8 +150,8 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($produtos_para_rolar as $produto): ?>
                     <div class="col-md-4">
                         <div class="game-card">
-                            <?php if (!empty($produto['link_imagem']) && file_exists('./img/Games/' . $produto['link_imagem'])): ?>
-                                <img src="./img/Games/<?= htmlspecialchars($produto['link_imagem']); ?>"
+                            <?php if (!empty($produto['imagem_path']) && file_exists('./img/Games/' . $produto['imagem_path'])): ?>
+                                <img src="./img/Games/<?= htmlspecialchars($produto['imagem_path']); ?>"
                                     alt="<?= htmlspecialchars($produto['nome']); ?>">
                             <?php else: ?>
                                 <img src="./img/no-image.png" alt="Imagem não disponível">
@@ -184,7 +203,6 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
                     })
                         .then(response => response.text())
                         .then(data => {
-                            console.log('Resposta do servidor:', data);
                             if (data === "adicionado") {
                                 self.classList.remove('btn-outline-danger');
                                 self.classList.add('btn-danger');
@@ -202,5 +220,4 @@ $produtos_novos = $stmt_novos->fetchAll(PDO::FETCH_ASSOC);
             });
         });
     </script>
-
 </div>
