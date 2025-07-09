@@ -1,5 +1,4 @@
 <?php
-require_once './bd/dbcon.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php?error=Jogo não encontrado');
@@ -28,7 +27,7 @@ try {
 // Buscar avaliações do jogo
 $avaliacoes = [];
 try {
-$stmt = $pdo->prepare("
+    $stmt = $pdo->prepare("
     SELECT a.avaliacao, c.comentario, a.data, a.id_utilizador
     FROM utilizador_avaliacao a
     JOIN utilizador_comentario c
@@ -38,7 +37,7 @@ $stmt = $pdo->prepare("
     ORDER BY a.data DESC
     LIMIT 5
 ");
-$stmt->execute([$jogoId]);
+    $stmt->execute([$jogoId]);
 
     $avaliacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -218,7 +217,7 @@ if (!empty($avaliacoes)) {
                             foreach ($generos as $genero):
                                 if (trim($genero)): ?>
                                     <span class="badge bg-primary"><?= htmlspecialchars(trim($genero)) ?></span>
-                                <?php endif;
+                            <?php endif;
                             endforeach; ?>
                         </div>
                     </div>
@@ -277,12 +276,62 @@ if (!empty($avaliacoes)) {
         </div>
     </div>
 
+
+    <!-- Seção de Comentários -->
+    <div class="bg-white p-4 rounded shadow-sm">
+        <h3 class="mb-4">
+            <i class="fas fa-comments"></i> Comentários
+        </h3>
+
+        <?php if (!empty($comentarios)): ?>
+            <div class="comentarios-lista">
+                <?php foreach ($comentarios as $comentario): ?>
+                    <div class="comentario-item mb-3 pb-3 border-bottom">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong><?= htmlspecialchars($comentario['id_utilizador']) ?></strong>
+                            </div>
+                            <small class="text-muted"><?= date('d/m/Y H:i', strtotime($comentario['data'])) ?></small>
+                        </div>
+                        <p class="mt-2"><?= nl2br(htmlspecialchars($comentario['comentario'])) ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php elseif (isset($erroComentarios)): ?>
+            <div class="alert alert-warning"><?= $erroComentarios ?></div>
+        <?php else: ?>
+            <div class="alert alert-info">Este jogo ainda não possui comentários.</div>
+        <?php endif; ?>
+
+        <!-- Formulário de novo comentário -->
+        <?php if ($utilizador_logado): ?>
+            <div class="mt-4">
+                <h5>Escreve um comentário</h5>
+                <form method="post" action="?page=comentario">
+                    <div class="form-group">
+                        <textarea name="comentario" class="form-control" rows="3" placeholder="Escreve aqui o teu comentário..." required></textarea>
+                    </div>
+                    <input type="hidden" name="id_utilizador" value="<?= $_SESSION['id_utilizador'] ?>">
+                    <input type="hidden" name="id_produto" value="<?= $produto['id_produto'] ?>">
+                    <button type="submit" class="btn btn-primary mt-2">
+                        <i class="fas fa-paper-plane"></i> Enviar
+                    </button>
+                </form>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-secondary mt-4">
+                <i class="fas fa-lock"></i> Para deixar um comentário, por favor <a href="?page=login">inicia sessão</a>.
+            </div>
+        <?php endif; ?>
+    </div>
+
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             const apiUrl = "./cache/get_Precos.php";
             const gameData = {
                 jogo_nome: "<?= addslashes($jogo['nome']) ?>"
@@ -293,7 +342,7 @@ if (!empty($avaliacoes)) {
                 url: apiUrl,
                 data: gameData,
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     $('#price-loading').hide();
 
                     // Atualiza horário da consulta
@@ -310,7 +359,7 @@ if (!empty($avaliacoes)) {
                     `);
                     }
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     $('#price-loading').hide();
                     $('#price-results').html(`
                     <div class="alert alert-danger">
@@ -395,8 +444,7 @@ if (!empty($avaliacoes)) {
 
             sectionHtml += `</div>`;
             return sectionHtml;
-        }
-        );
+        });
     </script>
 </body>
 

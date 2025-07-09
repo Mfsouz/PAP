@@ -94,6 +94,10 @@ if (isset($_GET['page'])) {
                 include './pag/editar_perfil.php';
                 break;
 
+            case 'comentario':
+                include './pag/comentario.php';
+                break;
+
             default:
                 include './pag/home.php';
                 break;
