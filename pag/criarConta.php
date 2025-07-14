@@ -40,7 +40,7 @@ unset($_SESSION['error']);
                 <?php unset($_SESSION['success']); ?>
             <?php endif; ?>
 
-            <form action="../bd/processaSingin.php" method="post">
+            <form action="./bd/processaSingin.php" method="post">
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
                     <input type="text" class="form-control" id="nome" name="nome" required />
